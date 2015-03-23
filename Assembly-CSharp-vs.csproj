@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\BIBA_REPORTER\Script\CamManager.cs" />
+     <Compile Include="Assets\BIBA_REPORTER\Script\GyroController.cs" />
      <Compile Include="Assets\BIBA_REPORTER\Script\MicrophoneInput.cs" />
      <Compile Include="Assets\Photon Unity Networking\PlayMaker\Actions\PhotonGUILayoutToolBarWithPlayers.cs" />
      <Compile Include="Assets\Photon Unity Networking\PlayMaker\Actions\PhotonGUILayoutToolBarWithRooms.cs" />
