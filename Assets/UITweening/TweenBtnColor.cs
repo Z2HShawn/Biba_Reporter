@@ -15,6 +15,7 @@ namespace UnityEngine.UI
         public Color pressed = Color.black;
         public float duration = 0.2f;
 
+        private Graphic gfx;
         private Color _Col;
         private bool _Started = false;
         private bool hovered = false;
@@ -25,7 +26,8 @@ namespace UnityEngine.UI
             {
                 _Started = true;
                 if (target == null) target = transform;
-                _Col = target.GetComponent<Graphic>().color;
+                gfx = target.GetComponent<Graphic>();
+                _Col = gfx.color;
             }
         }
 
@@ -45,7 +47,7 @@ namespace UnityEngine.UI
             if (enabled)
             {
                 if (!_Started) Start();
-                TweenColor.Tween(target.gameObject, duration, pressed, style, method);
+                TweenColor.Tween(target.gameObject, duration, gfx.color, pressed, style, method);
             }
         }
 
@@ -55,9 +57,9 @@ namespace UnityEngine.UI
             {
                 if (!_Started) Start();
                 if (hovered)
-                    TweenColor.Tween(target.gameObject, duration,hover, style, method);
+                    TweenColor.Tween(target.gameObject, duration, gfx.color, hover, style, method);
                 else
-                    TweenColor.Tween(target.gameObject, duration, _Col, TweenMain.Style.Once, method);
+                    TweenColor.Tween(target.gameObject, duration, gfx.color, _Col, TweenMain.Style.Once, method);
             }
         }
 
@@ -67,7 +69,7 @@ namespace UnityEngine.UI
             if (enabled)
             {
                 if (!_Started) Start();
-                TweenColor.Tween(target.gameObject, duration, hover, style, method);
+                TweenColor.Tween(target.gameObject, duration, gfx.color, hover, style, method);
             }
         }
 
@@ -77,7 +79,7 @@ namespace UnityEngine.UI
             if (enabled)
             {
                 if (!_Started) Start();
-                TweenColor.Tween(target.gameObject, duration, _Col, TweenMain.Style.Once, method);
+                TweenColor.Tween(target.gameObject, duration, gfx.color, _Col, TweenMain.Style.Once, method);
             }
         }
     }

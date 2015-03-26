@@ -19,13 +19,15 @@ namespace UnityEngine.UI
             EditorGUILayout.EndHorizontal();
             self.fromOffset = EditorGUILayout.Toggle("Offset", self.fromOffset);
 
-
             EditorGUILayout.BeginHorizontal();
             self.to = EditorGUILayout.Vector3Field("To", self.to);
             if (GUILayout.Button("\u25C0", GUILayout.Width(24f)))
                 self.ToCurrentValue();
             EditorGUILayout.EndHorizontal();
             self.toOffset = EditorGUILayout.Toggle("Offset", self.toOffset);
+
+            self.CSpace = (Space)EditorGUILayout.EnumPopup("Coordinate Space", self.CSpace);
+            EditorGUILayout.Separator();
 
             BaseTweenerProperties();
         }

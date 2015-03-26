@@ -15,6 +15,7 @@ namespace UnityEngine.UI
         public Vector3 pressed = new Vector3(2f, -2f);
         public float duration = 0.2f;
 
+        private RectTransform rect;
         private Vector3 _Pos;
         private bool _Started = false;
         private bool hovered = false;
@@ -25,7 +26,8 @@ namespace UnityEngine.UI
             {
                 _Started = true;
                 if (target == null) target = transform;
-                _Pos = target.GetComponent<RectTransform>().position;
+                rect = target.GetComponent<RectTransform>();
+                _Pos = rect.position;
             }
         }
 
@@ -46,7 +48,7 @@ namespace UnityEngine.UI
             if (enabled)
             {
                 if (!_Started) Start();
-                TweenPos.Tween(target.gameObject, duration, _Pos + pressed, style, method);
+                TweenPos.Tween(target.gameObject, duration, rect.position, _Pos + pressed, style, method);
             }
         }
 
@@ -56,9 +58,9 @@ namespace UnityEngine.UI
             {
                 if (!_Started) Start();
                 if (hovered)
-                    TweenPos.Tween(target.gameObject, duration, _Pos + hover, style, method);
+                    TweenPos.Tween(target.gameObject, duration, rect.position, _Pos + hover, style, method);
                 else
-                    TweenPos.Tween(target.gameObject, duration, _Pos, TweenMain.Style.Once, method);
+                    TweenPos.Tween(target.gameObject, duration, rect.position, _Pos, TweenMain.Style.Once, method);
             }
         }
 
@@ -68,7 +70,7 @@ namespace UnityEngine.UI
             if (enabled)
             {
                 if (!_Started) Start();
-                TweenPos.Tween(target.gameObject, duration, _Pos + hover, style, method);
+                TweenPos.Tween(target.gameObject, duration, rect.position, _Pos + hover, style, method);
             }
         }
 
@@ -78,7 +80,7 @@ namespace UnityEngine.UI
             if (enabled)
             {
                 if (!_Started) Start();
-                TweenPos.Tween(target.gameObject, duration, _Pos, TweenMain.Style.Once, method);
+                TweenPos.Tween(target.gameObject, duration, rect.position, _Pos, TweenMain.Style.Once, method);
             }
         }
     }

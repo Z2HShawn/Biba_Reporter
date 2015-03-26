@@ -9,15 +9,28 @@ namespace UnityEngine.UI
     [AddComponentMenu("UI/Tweening/Position")]
     public class TweenPos : TweenMain 
     {
-        public Vector3 from;
-        public Vector3 to;
-        private Vector3 _from;
-        private Vector3 _to;
+        public Space CSpace = Space.World;
+
+        public Vector3
+            from,
+            to;
+
+        private Vector3 
+            _from,
+            _to;
 
         public Vector3 value
         {
-            get { return rect.position; }
-            set { rect.position = value; }
+            get
+            {
+                if (CSpace == Space.Self) return rect.localPosition;
+                else return rect.position;
+            }
+            set
+            {
+                if (CSpace == Space.Self) rect.localPosition = value;
+                else rect.position = value;
+            }
         }
 
         protected override void Start()
@@ -37,21 +50,59 @@ namespace UnityEngine.UI
         public override void FromCurrentValue() { from = value; }
 
         /// <summary>
-        /// Create a TweenPos Component, and starts a tween.
+        /// Create a TweenPos Component and start a tween
         /// </summary>
-        /// <param name="go">GameObject to Apply the tween too</param>
-        /// <param name="duration">How long the tween will take</param>
-        /// <param name="pos">The final Value at the end of the tween</param>
-        /// <param name="Style">The tweening style</parm>
-        /// <param name="method">The tweening method</parm>
-        /// <param name="finished">The method execute at the end of the tween</param>
-        /// <returns>Reference to the TweenPos component</returns>
-        public static TweenPos Tween(GameObject go, float duration, Vector3 pos,
-            Style style = Style.Once, Method method = Method.Linear, UnityAction finished = null)
+        /// <param name="go">GameObject to apply tween too</param>
+        /// <param name="duration">Duration of tween</param>
+        /// <param name="pos">The ending value for the tween</param>
+        /// <param name="finished">A optional Callback to fire when the tween is done</param>
+        /// <param name="cSpace">A optional Arugmeant to define the coordnaite space to work in</param>
+        /// <returns>Return reference to the new TweenPos component</returns>
+        public static TweenPos Tween(GameObject go, float duration, Vector3 pos, UnityAction finished = null, Space cSpace = Space.World)
         {
-            TweenPos cls = TweenMain.Tween<TweenPos>(go, duration, style, method, finished);
+            TweenPos cls = TweenMain.Tween<TweenPos>(go, duration, finished);
+            cls.CSpace = cSpace;
             cls.from = cls.value;
             cls.to = pos;
+            cls.Start();
+            return cls;
+        }
+
+        /// <summary>
+        /// Create a TweenPos Component and start a tween
+        /// </summary>
+        /// <param name="go">GameObject to apply tween too</param>
+        /// <param name="duration">Duration of tween</param>
+        /// <param name="fromVal">The starting value for the tween</param>
+        /// <param name="toVal">The ending value for the tween</param>
+        /// <param name="finished">A optional Callback to fire when the tween is done</param>
+        /// <param name="cSpace">A optional Arugmeant to define the coordnaite space to work in</param>
+        /// <returns>Return reference to the new TweenPos component</returns>
+        public static TweenPos Tween(GameObject go, float duration, Vector3 fromVal, Vector3 toVal,
+            UnityAction finished = null, Space cSpace = Space.World)
+        {
+            return Tween(go, duration, fromVal, toVal, Style.Once, Method.Linear, finished, cSpace);
+        }
+
+        /// <summary>
+        /// Create a TweenPos Component and start a tween
+        /// </summary>
+        /// <param name="go">GameObject to apply tween too</param>
+        /// <param name="duration">Duration of tween</param>
+        /// <param name="fromVal">The starting value for the tween</param>
+        /// <param name="toVal">The ending value for the tween</param>
+        /// <param name="style">The style of tween (Once, Looped, PingPong)</param>
+        /// <param name="method">The Interpolation method of the tween</param>
+        /// <param name="finished">A optional Callback to fire when the tween is done</param>
+        /// <param name="cSpace">A optional Arugmeant to define the coordnaite space to work in</param>
+        /// <returns>Return reference to the new TweenPos component</returns>
+        public static TweenPos Tween(GameObject go, float duration, Vector3 fromVal, Vector3 toVal,
+            Style style, Method method, UnityAction finished = null, Space cSpace = Space.World)
+        {
+            TweenPos cls = TweenMain.Tween<TweenPos>(go, duration, style, method, finished);
+            cls.CSpace = cSpace;
+            cls.from = fromVal;
+            cls.to = toVal;
             cls.Start();
             return cls;
         }

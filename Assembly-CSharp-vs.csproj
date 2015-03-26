@@ -672,6 +672,7 @@
      <Compile Include="Assets\PlayMaker\Actions\iTween\iTweenShakeScale.cs" />
      <Compile Include="Assets\PlayMaker\Actions\iTween\iTweenStop.cs" />
      <Compile Include="Assets\PlayMaker\Include\iTweenFSMEvents.cs" />
+     <Compile Include="Assets\UITweening\Easing.cs" />
      <Compile Include="Assets\UITweening\TweenAlpha.cs" />
      <Compile Include="Assets\UITweening\TweenBtnAlpha.cs" />
      <Compile Include="Assets\UITweening\TweenBtnColor.cs" />

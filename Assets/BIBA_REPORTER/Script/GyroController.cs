@@ -39,7 +39,7 @@ public class GyroController : MonoBehaviour
 	
 	protected void Update() 
 	{
-		Debug.Log(gyroEnabled);
+		//Debug.Log(gyroEnabled);
 		if (!gyroEnabled)
 			return;
 		transform.rotation = Quaternion.Slerp(transform.rotation,

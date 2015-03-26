@@ -48,20 +48,54 @@ namespace UnityEngine.UI
         public override void FromCurrentValue() { from = value; }
 
         /// <summary>
-        /// Create a TweenCGAlpha Componet and start the tween.
+        /// Create a TweenCGAlpha Component and start a tween
         /// </summary>
-        /// <param name="go">GameObject to Apply the tween too</param>
-        /// <param name="duration">How long the tween will take</param>
-        /// <param name="alpha">The final Value at the end of the tween</param>
-        /// <param name="method">The tweening method</parm>
-        /// <param name="finished">The method execute at the end of the tween</param>
-        /// <returns>Reference to the TweenCGAlpha component</returns>
-        public static TweenCGAlpha Tween(GameObject go, float duration, float alpha,
-            Style style = Style.Once, Method method = Method.Linear, UnityAction finished = null)
+        /// <param name="go">GameObject to apply tween too</param>
+        /// <param name="duration">Duration of tween</param>
+        /// <param name="alpha">The ending value for the tween</param>
+        /// <param name="finished">A optional Callback to fire when the tween is done</param>
+        /// <returns>Return reference to the new TweenCGAlpha component</returns>
+        public static TweenCGAlpha Tween(GameObject go, float duration, float alpha, UnityAction finished = null)
         {
-            TweenCGAlpha cls = TweenMain.Tween<TweenCGAlpha>(go, duration, style, method, finished);
+            TweenCGAlpha cls = TweenMain.Tween<TweenCGAlpha>(go, duration, finished);
             cls.from = cls.value;
             cls.to = alpha;
+            cls.Start();
+            return cls;
+        }
+
+        /// <summary>
+        /// Create a TweenCGAlpha Component and start a tween
+        /// </summary>
+        /// <param name="go">GameObject to apply tween too</param>
+        /// <param name="duration">Duration of tween</param>
+        /// <param name="fromVal">The starting value for the tween</param>
+        /// <param name="toVal">The ending value for the tween</param>
+        /// <param name="finished">A optional Callback to fire when the tween is done</param>
+        /// <returns>Return reference to the new TweenCGAlpha component</returns>
+        public static TweenCGAlpha Tween(GameObject go, float duration, float fromVal, float toVal,
+            UnityAction finished = null)
+        {
+            return Tween(go, duration, fromVal, toVal, Style.Once, Method.Linear, finished);
+        }
+
+        /// <summary>
+        /// Create a TweenCGAlpha Component and start a tween
+        /// </summary>
+        /// <param name="go">GameObject to apply tween too</param>
+        /// <param name="duration">Duration of tween</param>
+        /// <param name="fromVal">The starting value for the tween</param>
+        /// <param name="toVal">The ending value for the tween</param>
+        /// <param name="style">The style of tween (Once, Looped, PingPong)</param>
+        /// <param name="method">The Interpolation method of the tween</param>
+        /// <param name="finished">A optional Callback to fire when the tween is done</param>
+        /// <returns>Return reference to the new TweenCGAlpha component</returns>
+        public static TweenCGAlpha Tween(GameObject go, float duration, float fromVal, float toVal,
+            Style style, Method method, UnityAction finished = null)
+        {
+            TweenCGAlpha cls = TweenMain.Tween<TweenCGAlpha>(go, duration, style, method, finished);
+            cls.from = fromVal;
+            cls.to = toVal;
             cls.Start();
             return cls;
         }

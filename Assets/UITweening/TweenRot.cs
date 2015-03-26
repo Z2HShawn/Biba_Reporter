@@ -40,20 +40,54 @@ namespace UnityEngine.UI
         public override void FromCurrentValue() { from = value.eulerAngles; }
 
         /// <summary>
-        /// Create a TweenRot Component, and starts a tween.
+        /// Create a TweenRot Component and start a tween
         /// </summary>
-        /// <param name="go">GameObject to Apply the tween too</param>
-        /// <param name="duration">How long the tween will take</param>
-        /// <param name="rot">The Fianl Value at the end of the tween</param>
-        /// <param name="method">The tweening method</parm>
-        /// <param name="finished">The method execute at the end of the tween</param>
-        /// <returns>Reference to the TweenRot component</returns>
-        static public TweenRot Tween(GameObject go, float duration, Quaternion rot,
-            Style style = Style.Once, Method method = Method.Linear, UnityAction finished = null)
+        /// <param name="go">GameObject to apply tween too</param>
+        /// <param name="duration">Duration of tween</param>
+        /// <param name="rot">The ending value for the tween</param>
+        /// <param name="finished">A optional Callback to fire when the tween is done</param>
+        /// <returns>Return reference to the new TweenRot component</returns>
+        public static TweenRot Tween(GameObject go, float duration, Quaternion rot, UnityAction finished = null)
         {
-            TweenRot cls = TweenMain.Tween<TweenRot>(go, duration, style, method, finished);
+            TweenRot cls = TweenMain.Tween<TweenRot>(go, duration, finished);
             cls.from = cls.value.eulerAngles;
             cls.to = rot.eulerAngles;
+            cls.Start();
+            return cls;
+        }
+
+        /// <summary>
+        /// Create a TweenRot Component and start a tween
+        /// </summary>
+        /// <param name="go">GameObject to apply tween too</param>
+        /// <param name="duration">Duration of tween</param>
+        /// <param name="fromVal">The starting value for the tween</param>
+        /// <param name="toVal">The ending value for the tween</param>
+        /// <param name="finished">A optional Callback to fire when the tween is done</param>
+        /// <returns>Return reference to the new TweenRot component</returns>
+        public static TweenRot Tween(GameObject go, float duration, Quaternion fromVal, Quaternion toVal,
+            UnityAction finished = null)
+        {
+            return Tween(go, duration, fromVal, toVal, Style.Once, Method.Linear, finished);
+        }
+
+        /// <summary>
+        /// Create a TweenRot Component and start a tween
+        /// </summary>
+        /// <param name="go">GameObject to apply tween too</param>
+        /// <param name="duration">Duration of tween</param>
+        /// <param name="fromVal">The starting value for the tween</param>
+        /// <param name="toVal">The ending value for the tween</param>
+        /// <param name="style">The style of tween (Once, Looped, PingPong)</param>
+        /// <param name="method">The Interpolation method of the tween</param>
+        /// <param name="finished">A optional Callback to fire when the tween is done</param>
+        /// <returns>Return reference to the new TweenRot component</returns>
+        public static TweenRot Tween(GameObject go, float duration, Quaternion fromVal, Quaternion toVal,
+            Style style, Method method, UnityAction finished = null)
+        {
+            TweenRot cls = TweenMain.Tween<TweenRot>(go, duration, style, method, finished);
+            cls.from = fromVal.eulerAngles;
+            cls.to = toVal.eulerAngles;
             cls.Start();
             return cls;
         }

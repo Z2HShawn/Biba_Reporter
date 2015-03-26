@@ -27,21 +27,53 @@ namespace UnityEngine.UI
         public override void FromCurrentValue() { from = value; }
 
         /// <summary>
-        /// Create a TweenColor Component, and starts a tween.
+        /// Create a TweenColor Component and start a tween
         /// </summary>
-        /// <param name="go">GameObject to Apply the tween too</param>
-        /// <param name="duration">How long the tween will take</param>
-        /// <param name="color">The final Value at the end of the tween</param>
-        /// <param name="method">The tweening method</parm>
-        /// <param name="finished">The method execute at the end of the tween</param>
-        /// <returns>Reference to the TweenColor component</returns>
-        public static TweenColor Tween(GameObject go, float duration, Color color,
-            Style style = Style.Once, Method method = Method.Linear, UnityAction finished = null)
+        /// <param name="go">GameObject to apply tween too</param>
+        /// <param name="duration">Duration of tween</param>
+        /// <param name="color">The ending value for the tween</param>
+        /// <param name="finished">A optional Callback to fire when the tween is done</param>
+        /// <returns>Return reference to the new TweenColor component</returns>
+        public static TweenColor Tween(GameObject go, float duration, Color color, UnityAction finished = null)
         {
-            TweenColor cls = TweenMain.Tween<TweenColor>(go, duration, style, method, finished);
-
+            TweenColor cls = TweenMain.Tween<TweenColor>(go, duration, finished);
             cls.from = cls.value;
             cls.to = color;
+            cls.Start();
+            return cls;
+        }
+
+        /// <summary>
+        /// Create a TweenColor Component and start a tween
+        /// </summary>
+        /// <param name="go">GameObject to apply tween too</param>
+        /// <param name="duration">Duration of tween</param>
+        /// <param name="fromVal">The starting value for the tween</param>
+        /// <param name="toVal">The ending value for the tween</param>
+        /// <param name="finished">A optional Callback to fire when the tween is done</param>
+        /// <returns>Return reference to the new TweenColor component</returns>
+        public static TweenColor Tween(GameObject go, float duration, Color fromVal, Color toVal, UnityAction finished = null)
+        {
+            return Tween(go, duration, fromVal, toVal, Style.Once, Method.Linear, finished);
+        }
+
+        /// <summary>
+        /// Create a TweenColor Component and start a tween
+        /// </summary>
+        /// <param name="go">GameObject to apply tween too</param>
+        /// <param name="duration">Duration of tween</param>
+        /// <param name="fromVal">The starting value for the tween</param>
+        /// <param name="toVal">The ending value for the tween</param>
+        /// <param name="style">The style of tween (Once, Looped, PingPong)</param>
+        /// <param name="method">The Interpolation method of the tween</param>
+        /// <param name="finished">A optional Callback to fire when the tween is done</param>
+        /// <returns>Return reference to the new TweenColor component</returns>
+        public static TweenColor Tween(GameObject go, float duration, Color fromVal, Color toVal,
+            Style style, Method method, UnityAction finished = null)
+        {
+            TweenColor cls = TweenMain.Tween<TweenColor>(go, duration, style, method, finished);
+            cls.from = fromVal;
+            cls.to = toVal;
             cls.Start();
             return cls;
         }

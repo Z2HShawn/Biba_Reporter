@@ -17,7 +17,8 @@ namespace UnityEngine.UI
             EaseOut,
             EaseInOut,
             BounceIn,
-            BounceOut
+            BounceOut,
+            BounceInOut
         }
 
         public enum Style
@@ -172,44 +173,34 @@ namespace UnityEngine.UI
             switch (method)
             {
                 case Method.Linear:
+                    val = Easing.Linear(val);
                     break;
 
                 case Method.EaseIn:
-                    val = 1f - Mathf.Sin(0.5f * Mathf.PI * (1f - val));
+                    val = Easing.Sinusoidal.In(val);
                     break;
 
                 case Method.EaseOut:
-                    val = 1f - Mathf.Sin(0.5f * Mathf.PI * val);
+                    val = Easing.Sinusoidal.Out(val);
                     break;
 
                 case Method.EaseInOut:
-                    const float pi2 = Mathf.PI * 2;
-                    val = val - Mathf.Sin(val * pi2) / pi2;
+                    val = Easing.Sinusoidal.InOut(val);
                     break;
 
                 case Method.BounceIn:
-                    val = Bounce(val);
+                    val = Easing.Bounce.In(val);
                     break;
 
                 case Method.BounceOut:
-                    val = 1f - Bounce(1f - val);
+                    val = Easing.Bounce.Out(val);
+                    break;
+
+                case Method.BounceInOut:
+                    val = Easing.Bounce.InOut(val);
                     break;
             }
             OnUpdate((functionCurve != null) ? functionCurve.Evaluate(val) : val, isFinished);
-        }
-
-        float Bounce(float val)
-        {
-            if (val < 0.363636f)
-                val = 7.5685f * val * val;
-            else if (val < 0.727272f)
-                val = 7.5625f * (val -= 0.545454f) * val + 0.75f;
-            else if (val < 0.909090f)
-                val = 7.5625f * (val -= 0.818181f) * val + 0.9375f;
-            else
-                val = 7.5625f * (val -= 0.9545454f) * val + 0.984375f;
-
-            return val;
         }
 
         #region PlayMethods
@@ -280,8 +271,17 @@ namespace UnityEngine.UI
         /// </summary>
         public virtual void FromCurrentValue() { }
 
-        protected static T Tween<T>(GameObject go, float duration, Style style,
-            Method method, UnityAction finished = null)  where T : TweenMain
+        protected static T Tween<T>(GameObject go, float duration,
+            Style style, Method method, UnityAction finished = null) where T :TweenMain
+        {
+            T cls = Tween<T>(go, duration, finished);
+            cls.style = style;
+            cls.method = method;
+            return cls;
+        }
+
+        protected static T Tween<T>(GameObject go, float duration,
+            UnityAction finished = null) where T : TweenMain
         {
             T cls = go.GetComponent<T>();
             if (cls == null)
@@ -292,11 +292,9 @@ namespace UnityEngine.UI
 
             cls._Started = false;
             cls.duration = duration;
-            cls.method = method;
-            cls.style = style;
             cls._Factor = 0f;
             cls._AmountPerDelta = Mathf.Abs(cls._AmountPerDelta);
-            cls.functionCurve = new AnimationCurve(new Keyframe(0f, 0f, 0f, 1f), new Keyframe(1f, 1f, 1f, 0f));
+            cls.functionCurve = new AnimationCurve(new Keyframe(0f, 0f, 0f, 0f), new Keyframe(1f, 1f, 1f, 1f));
             cls.enabled = true;
 
             if (duration <= 0f)
@@ -304,7 +302,6 @@ namespace UnityEngine.UI
                 cls.Sample(1f, true);
                 cls.enabled = false;
             }
-
             return cls;
         }
     }

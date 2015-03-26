@@ -49,7 +49,7 @@ namespace UnityEngine.UI
             if (enabled)
             {
                 if (!_Started) Start();
-                TweenScale.Tween(target.gameObject, duration, pressed, style, method);
+                TweenScale.Tween(target.gameObject, duration, target.localScale, pressed, style, method);
             }
         }
 
@@ -59,9 +59,9 @@ namespace UnityEngine.UI
             {
                 if (!_Started) Start();
                 if (hovered)
-                    TweenScale.Tween(target.gameObject, duration, hover, style, method);
+                    TweenScale.Tween(target.gameObject, duration, target.localScale, hover, style, method);
                 else
-                    TweenScale.Tween(target.gameObject, duration, _Scale, TweenMain.Style.Once, method);
+                    TweenScale.Tween(target.gameObject, duration, target.localScale, _Scale, TweenMain.Style.Once, method);
             }
         }
 
@@ -71,7 +71,7 @@ namespace UnityEngine.UI
             if (enabled)
             {
                 if (!_Started) Start();
-                TweenScale.Tween(target.gameObject, duration, hover, style, method);
+                TweenScale.Tween(target.gameObject, duration, target.localScale, hover, style, method);
             }
         }
 
@@ -81,7 +81,7 @@ namespace UnityEngine.UI
             if (enabled)
             {
                 if (!_Started) Start();
-                TweenScale.Tween(target.gameObject, duration, _Scale, TweenMain.Style.Once, method);
+                TweenScale.Tween(target.gameObject, duration, target.localScale, _Scale, TweenMain.Style.Once, method);
             }
         }
     }

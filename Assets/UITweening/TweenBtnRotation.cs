@@ -15,6 +15,7 @@ namespace UnityEngine.UI
         public Vector3 pressed = new Vector3(0f, 0f, 180f);
         public float duration = 0.2f;
 
+        private RectTransform rect;
         private Quaternion _Rot;
         private bool _Started = false;
         private bool hovered = false;
@@ -25,7 +26,8 @@ namespace UnityEngine.UI
             {
                 _Started = true;
                 if (target == null) target = transform;
-                _Rot = target.GetComponent<RectTransform>().rotation;
+                rect = target.GetComponent<RectTransform>();
+                _Rot = rect.rotation;
             }
         }
 
@@ -46,7 +48,7 @@ namespace UnityEngine.UI
             if (enabled)
             {
                 if (!_Started) Start();
-                TweenRot.Tween(target.gameObject, duration, _Rot * Quaternion.Euler(pressed), style, method);
+                TweenRot.Tween(target.gameObject, duration, rect.rotation, _Rot * Quaternion.Euler(pressed), style, method);
             }
         }
 
@@ -56,9 +58,9 @@ namespace UnityEngine.UI
             {
                 if (!_Started) Start();
                 if (hovered)
-                    TweenRot.Tween(target.gameObject, duration, _Rot * Quaternion.Euler(hover), style, method);
+                    TweenRot.Tween(target.gameObject, duration, rect.rotation, _Rot * Quaternion.Euler(hover), style, method);
                 else
-                    TweenRot.Tween(target.gameObject, duration, _Rot, TweenMain.Style.Once, method);
+                    TweenRot.Tween(target.gameObject, duration, rect.rotation, _Rot, TweenMain.Style.Once, method);
             }
         }
 
@@ -68,7 +70,7 @@ namespace UnityEngine.UI
             if (enabled)
             {
                 if (!_Started) Start();
-                TweenRot.Tween(target.gameObject, duration, _Rot * Quaternion.Euler(hover), style, method);
+                TweenRot.Tween(target.gameObject, duration, rect.rotation, _Rot * Quaternion.Euler(hover), style, method);
             }
         }
 
@@ -78,7 +80,7 @@ namespace UnityEngine.UI
             if (enabled)
             {
                 if (!_Started) Start();
-                TweenRot.Tween(target.gameObject, duration, _Rot, TweenMain.Style.Once, method);
+                TweenRot.Tween(target.gameObject, duration, rect.rotation, _Rot, TweenMain.Style.Once, method);
             }
         }
     }
